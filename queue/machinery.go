@@ -1,4 +1,4 @@
-package mq
+package queue
 
 import (
 	"github.com/RichardKnop/machinery/v1"
@@ -8,7 +8,7 @@ import (
 
 var server *machinery.Server
 
-func ConnectMQ() error {
+func ConnectQueueServer() error {
 	conf := &cfg.Config{
 		Broker:        config.MQ().Broker,
 		ResultBackend: config.MQ().ResultBackend,
@@ -29,6 +29,6 @@ func ConnectMQ() error {
 	return nil
 }
 
-func MQServer() *machinery.Server {
+func QueueServer() *machinery.Server {
 	return server
 }

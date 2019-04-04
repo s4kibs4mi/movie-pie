@@ -1,4 +1,4 @@
-package api
+package rest
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"net/http/httputil"
 )
 
-func capture(next http.Handler) http.Handler {
+func Capture(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		requestDump, err := httputil.DumpRequest(r, true)
 		if err != nil {
@@ -25,9 +25,9 @@ func capture(next http.Handler) http.Handler {
 
 		responseDump, err := httputil.DumpResponse(rec.Result(), true)
 		if err != nil {
-			fmt.Println("Error in capturing response :", err)
+			fmt.Println("Error in capturing Response :", err)
 		} else {
-			fmt.Println("Captured response")
+			fmt.Println("Captured Response")
 			fmt.Println(string(responseDump))
 		}
 

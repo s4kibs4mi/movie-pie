@@ -1,11 +1,11 @@
-package api
+package rest
 
 import (
 	"net/http"
 )
 
-func index(w http.ResponseWriter, r *http.Request) {
-	resp := response{
+func Index(w http.ResponseWriter, r *http.Request) {
+	resp := Response{
 		Status: http.StatusOK,
 		Data:   "OK",
 	}

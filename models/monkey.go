@@ -8,28 +8,31 @@ import (
 
 type Monkey struct {
 	ID        int       `sql:"id;primary key;auto_increment" json:"-"`
-	UUID      string    `sql:"uuid;not null;unique" json:"uuid"`
 	Name      string    `sql:"name" json:"name"`
+	Location  string    `sql:"location" json:"location"`
 	CreatedAt time.Time `sql:"created_at;not null" json:"created_at"`
 	UpdatedAt time.Time `sql:"updated_at;not null" json:"updated_at"`
 }
 
-func (h *Monkey) TableName() string {
+func (m *Monkey) TableName() string {
 	return "monkeys"
 }
 
-func (h *Monkey) Validate() *errors.ValidationError {
-	h.Name = strings.TrimSpace(h.Name)
+func (m *Monkey) Validate() *errors.ValidationError {
+	m.Name = strings.TrimSpace(m.Name)
+	m.Location = strings.TrimSpace(m.Location)
 
 	ve := errors.ValidationError{}
 
-	if h.Name == "" {
+	if m.Name == "" {
 		ve.Add("name", "is required")
+	}
+	if m.Location == "" {
+		ve.Add("location", "is required")
 	}
 
 	if len(ve) == 0 {
 		return nil
 	}
-
 	return &ve
 }

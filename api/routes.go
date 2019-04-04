@@ -1,6 +1,10 @@
 package api
 
 import (
+	"github.com/codersgarage/golang-restful-boilerplate/api/rest"
+	"github.com/codersgarage/golang-restful-boilerplate/api/rpc"
+	"github.com/codersgarage/golang-restful-boilerplate/proto/defs"
+	"github.com/twitchtv/twirp"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -12,11 +16,11 @@ var router = chi.NewRouter()
 // Router returns the api router
 func Router() http.Handler {
 	router.Use(middleware.Logger)
-	router.Use(recoverer)
-	router.Use(capture)
+	router.Use(rest.Recoverer)
+	router.Use(rest.Capture)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		resp := response{
+		resp := rest.Response{
 			Status: http.StatusOK,
 			Data:   "Congratulations - Service running...",
 		}
@@ -24,7 +28,7 @@ func Router() http.Handler {
 	})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		resp := response{
+		resp := rest.Response{
 			Status: http.StatusOK,
 			Data:   "route not found",
 		}
@@ -32,7 +36,7 @@ func Router() http.Handler {
 	})
 
 	router.MethodNotAllowed(func(w http.ResponseWriter, r *http.Request) {
-		resp := response{
+		resp := rest.Response{
 			Status: http.StatusOK,
 			Data:   "method not allowed",
 		}
@@ -45,22 +49,26 @@ func Router() http.Handler {
 }
 
 func registerRoutes() {
-	router.Route("/v1", func(r chi.Router) {
-		r.Get("/", index)
+	rpcServer := &rpc.RPCServer{}
+	rpcHandler := defs.NewMonkeyRPCServiceServer(rpcServer, twirp.ChainHooks(rpc.AuthHook()))
 
+	router.Mount(defs.MonkeyRPCServicePathPrefix, rpcHandler)
+
+	router.Route("/v1", func(r chi.Router) {
+		r.Get("/", rest.Index)
 		r.Mount("/monkeys", monkeyRoutes())
 	})
 }
 
 func monkeyRoutes() http.Handler {
-	hr := NewMonkeyRoutes()
+	hr := rest.NewMonkeyRoutes()
 	h := chi.NewRouter()
 	h.Group(func(r chi.Router) {
-		r.Post("/", hr.saveMonkey)
-		r.Get("/", hr.listMonkey)
-		r.Get("/{id}", hr.getMonkey)
-		r.Put("/{id}", hr.updateMonkey)
-		r.Delete("/{id}", hr.deleteMonkey)
+		r.Post("/", hr.SaveMonkey)
+		r.Get("/", hr.ListMonkey)
+		r.Get("/{id}", hr.GetMonkey)
+		r.Put("/{id}", hr.UpdateMonkey)
+		r.Delete("/{id}", hr.DeleteMonkey)
 	})
 	return h
 }

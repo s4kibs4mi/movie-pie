@@ -1,4 +1,4 @@
-package api
+package rest
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 
 type object map[string]interface{}
 
-type response struct {
+type Response struct {
 	Code   string      `json:"code,omitempty"`
 	Status int         `json:"-"`
 	Title  string      `json:"title,omitempty"`
@@ -16,7 +16,7 @@ type response struct {
 	Errors error       `json:"errors,omitempty"`
 }
 
-func (r *response) ServerJSON(w http.ResponseWriter) {
+func (r *Response) ServerJSON(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(r.Status)
 	if err := json.NewEncoder(w).Encode(r); err != nil {
@@ -24,11 +24,11 @@ func (r *response) ServerJSON(w http.ResponseWriter) {
 	}
 }
 
-func parseBody(r *http.Request, v interface{}) error {
+func ParseBody(r *http.Request, v interface{}) error {
 	return json.NewDecoder(r.Body).Decode(v)
 }
 
-func forward(w http.ResponseWriter, resp *http.Response) {
+func Forward(w http.ResponseWriter, resp *http.Response) {
 	defer resp.Body.Close()
 
 	for k, v := range resp.Header {

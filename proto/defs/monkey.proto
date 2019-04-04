@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package defs;
+
+option go_package = "github.com/codersgarage/golang-restful-boilerplate/proto/defs";
+
+import "proto/defs/errors.proto";
+
+message Monkey {
+    int64 ID = 1;
+    string Name = 2;
+    string Location = 3;
+    int64 CreatedAt = 4;
+    int64 UpdatedAt = 5;
+}
+
+message ReqCreateMonkey {
+    string Name = 1;
+    string Location = 2;
+}
+
+message ResCreateMonkey {
+    string Title = 1;
+    Monkey Data = 2;
+    Error Error = 3;
+}

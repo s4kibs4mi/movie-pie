@@ -1,4 +1,4 @@
-package api
+package rest
 
 import (
 	"github.com/codersgarage/golang-restful-boilerplate/app"
@@ -26,8 +26,8 @@ func NewMonkeyRoutes() *MonkeyRoutes {
 	}
 }
 
-func (hr *MonkeyRoutes) saveMonkey(w http.ResponseWriter, r *http.Request) {
-	resp := response{}
+func (hr *MonkeyRoutes) SaveMonkey(w http.ResponseWriter, r *http.Request) {
+	resp := Response{}
 	Monkey, err := hr.Repo.SaveMonkey(app.NewScope(app.DB(), r))
 	if err != nil {
 		resp.Status = err.(*errors.APIError).Status
@@ -44,8 +44,8 @@ func (hr *MonkeyRoutes) saveMonkey(w http.ResponseWriter, r *http.Request) {
 	resp.ServerJSON(w)
 }
 
-func (hr *MonkeyRoutes) getMonkey(w http.ResponseWriter, r *http.Request) {
-	resp := response{}
+func (hr *MonkeyRoutes) GetMonkey(w http.ResponseWriter, r *http.Request) {
+	resp := Response{}
 	Monkey, err := hr.Repo.GetMonkey(app.NewScope(app.DB(), r))
 	if err != nil {
 		resp.Status = err.(*errors.APIError).Status
@@ -61,8 +61,8 @@ func (hr *MonkeyRoutes) getMonkey(w http.ResponseWriter, r *http.Request) {
 	resp.ServerJSON(w)
 }
 
-func (hr *MonkeyRoutes) updateMonkey(w http.ResponseWriter, r *http.Request) {
-	resp := response{}
+func (hr *MonkeyRoutes) UpdateMonkey(w http.ResponseWriter, r *http.Request) {
+	resp := Response{}
 	Monkey, err := hr.Repo.UpdateMonkey(app.NewScope(app.DB(), r))
 	if err != nil {
 		resp.Status = err.(*errors.APIError).Status
@@ -78,8 +78,8 @@ func (hr *MonkeyRoutes) updateMonkey(w http.ResponseWriter, r *http.Request) {
 	resp.ServerJSON(w)
 }
 
-func (hr *MonkeyRoutes) listMonkey(w http.ResponseWriter, r *http.Request) {
-	resp := response{}
+func (hr *MonkeyRoutes) ListMonkey(w http.ResponseWriter, r *http.Request) {
+	resp := Response{}
 	Monkeys, err := hr.Repo.ListMonkey(app.NewScope(app.DB(), r))
 	if err != nil {
 		resp.Status = err.(*errors.APIError).Status
@@ -95,6 +95,6 @@ func (hr *MonkeyRoutes) listMonkey(w http.ResponseWriter, r *http.Request) {
 	resp.ServerJSON(w)
 }
 
-func (hr *MonkeyRoutes) deleteMonkey(w http.ResponseWriter, r *http.Request) {
+func (hr *MonkeyRoutes) DeleteMonkey(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
