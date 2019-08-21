@@ -2,9 +2,9 @@ package worker
 
 import (
 	"github.com/RichardKnop/machinery/v1"
-	"github.com/codersgarage/golang-restful-boilerplate/config"
-	"github.com/codersgarage/golang-restful-boilerplate/log"
-	"github.com/codersgarage/golang-restful-boilerplate/queue"
+	"github.com/s4kibs4mi/movie-pie/config"
+	"github.com/s4kibs4mi/movie-pie/log"
+	"github.com/s4kibs4mi/movie-pie/queue"
 	"os"
 )
 

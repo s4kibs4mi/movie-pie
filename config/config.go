@@ -36,8 +36,6 @@ func LoadConfig() error {
 	LoadApp()
 	LoadDB()
 	LoadSvc()
-	LoadMQ()
-	LoadRedis()
 
 	return nil
 }

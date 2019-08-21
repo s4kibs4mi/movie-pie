@@ -3,7 +3,7 @@ package queue
 import (
 	"github.com/RichardKnop/machinery/v1"
 	cfg "github.com/RichardKnop/machinery/v1/config"
-	"github.com/codersgarage/golang-restful-boilerplate/config"
+	"github.com/s4kibs4mi/movie-pie/config"
 )
 
 var server *machinery.Server

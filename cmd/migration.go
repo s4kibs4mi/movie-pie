@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/codersgarage/golang-restful-boilerplate/cmd/migration"
+	"github.com/s4kibs4mi/movie-pie/cmd/migration"
 	"github.com/spf13/cobra"
 )
 
@@ -11,7 +11,5 @@ var migrationCmd = &cobra.Command{
 }
 
 func init() {
-	migrationCmd.AddCommand(migration.MigCreateCmd)
-	migrationCmd.AddCommand(migration.MigDropCmd)
 	migrationCmd.AddCommand(migration.MigAutoCmd)
 }

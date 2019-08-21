@@ -1,18 +1,18 @@
 package app
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"net/http"
 )
 
 type Scope struct {
-	Request *http.Request
-	DB      *gorm.DB
+	Ctx *gin.Context
+	DB  *gorm.DB
 }
 
-func NewScope(db *gorm.DB, r *http.Request) *Scope {
+func NewScope(db *gorm.DB, ctx *gin.Context) *Scope {
 	return &Scope{
-		DB:      db,
-		Request: r,
+		DB:  db,
+		Ctx: ctx,
 	}
 }

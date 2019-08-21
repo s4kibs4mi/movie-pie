@@ -1,7 +1,7 @@
 package tasks
 
 import (
-	"github.com/codersgarage/golang-restful-boilerplate/log"
+	"github.com/s4kibs4mi/movie-pie/log"
 )
 
 const (

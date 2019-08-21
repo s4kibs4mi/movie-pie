@@ -2,11 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/codersgarage/golang-restful-boilerplate/app"
-	"github.com/codersgarage/golang-restful-boilerplate/config"
-	"github.com/codersgarage/golang-restful-boilerplate/log"
-	"github.com/codersgarage/golang-restful-boilerplate/queue"
-	"github.com/codersgarage/golang-restful-boilerplate/worker"
+	"github.com/s4kibs4mi/movie-pie/config"
+	"github.com/s4kibs4mi/movie-pie/log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -34,21 +31,10 @@ func Execute() {
 	}
 	log.SetupLog()
 
-	if err := app.ConnectDB(); err != nil {
-		log.Log().Printf("Failed to connect to database : %v\n", err)
-		os.Exit(-1)
-	}
-	if err := queue.ConnectQueueServer(); err != nil {
-		log.Log().Printf("Failed to connect to queue server: %v\n", err)
-		os.Exit(-1)
-	}
-	worker.RunWorker()
-
-	if err := worker.RegisterTasks(); err != nil {
-		log.Log().Printf("Failed to register tasks: %v\n", err)
-		os.Exit(-1)
-
-	}
+	//if err := app.ConnectDB(); err != nil {
+	//	log.Log().Printf("Failed to connect to database : %v\n", err)
+	//	os.Exit(-1)
+	//}
 
 	if err := RootCmd.Execute(); err != nil {
 		log.Log().Println(err)

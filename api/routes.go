@@ -1,46 +1,35 @@
 package api
 
 import (
-	"github.com/codersgarage/golang-restful-boilerplate/api/rest"
-	"github.com/codersgarage/golang-restful-boilerplate/api/rpc"
-	"github.com/codersgarage/golang-restful-boilerplate/proto/defs"
-	"github.com/twitchtv/twirp"
+	"github.com/gin-gonic/gin"
 	"net/http"
-
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 )
 
-var router = chi.NewRouter()
+var router = gin.Default()
 
 // Router returns the api router
 func Router() http.Handler {
-	router.Use(middleware.Logger)
-	router.Use(rest.Recoverer)
-	router.Use(rest.Capture)
-
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		resp := rest.Response{
-			Status: http.StatusOK,
-			Data:   "Congratulations - Service running...",
-		}
-		resp.ServerJSON(w)
+	router.Use(func(ctx *gin.Context) {
+		defer func() {
+			if rvr := recover(); rvr != nil {
+				resp := Response{}
+				resp.Title = "Something went wrong"
+				resp.Errors = rvr.(error)
+				resp.Status = http.StatusInternalServerError
+				resp.ServerJSON(ctx.Writer)
+				return
+			}
+		}()
 	})
 
-	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		resp := rest.Response{
+	router.GET("/", func(ctx *gin.Context) {
+		resp := Response{
 			Status: http.StatusOK,
-			Data:   "route not found",
+			Data: map[string]interface{}{
+				"name": "movie-pie",
+			},
 		}
-		resp.ServerJSON(w)
-	})
-
-	router.MethodNotAllowed(func(w http.ResponseWriter, r *http.Request) {
-		resp := rest.Response{
-			Status: http.StatusOK,
-			Data:   "method not allowed",
-		}
-		resp.ServerJSON(w)
+		resp.ServerJSON(ctx.Writer)
 	})
 
 	registerRoutes()
@@ -49,26 +38,12 @@ func Router() http.Handler {
 }
 
 func registerRoutes() {
-	rpcServer := &rpc.RPCServer{}
-	rpcHandler := defs.NewMonkeyRPCServiceServer(rpcServer, twirp.ChainHooks(rpc.AuthHook()))
+	v1 := router.Group("/v1")
+	v1.POST("/login", login)
+	v1.POST("/register", register)
+	v1.GET("/profile", profile)
 
-	router.Mount(defs.MonkeyRPCServicePathPrefix, rpcHandler)
-
-	router.Route("/v1", func(r chi.Router) {
-		r.Get("/", rest.Index)
-		r.Mount("/monkeys", monkeyRoutes())
-	})
-}
-
-func monkeyRoutes() http.Handler {
-	hr := rest.NewMonkeyRoutes()
-	h := chi.NewRouter()
-	h.Group(func(r chi.Router) {
-		r.Post("/", hr.SaveMonkey)
-		r.Get("/", hr.ListMonkey)
-		r.Get("/{id}", hr.GetMonkey)
-		r.Put("/{id}", hr.UpdateMonkey)
-		r.Delete("/{id}", hr.DeleteMonkey)
-	})
-	return h
+	movies := v1.Group("movies")
+	movies.GET("/search", searchMovie)
+	movies.GET("/favourite", favouriteMovie)
 }

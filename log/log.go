@@ -1,7 +1,7 @@
 package log
 
 import (
-	"github.com/codersgarage/golang-restful-boilerplate/log/hooks"
+	"github.com/s4kibs4mi/movie-pie/log/hooks"
 	"github.com/sirupsen/logrus"
 	"os"
 )

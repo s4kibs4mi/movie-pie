@@ -3,9 +3,9 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"github.com/codersgarage/golang-restful-boilerplate/api"
-	"github.com/codersgarage/golang-restful-boilerplate/config"
-	"github.com/codersgarage/golang-restful-boilerplate/log"
+	"github.com/s4kibs4mi/movie-pie/api"
+	"github.com/s4kibs4mi/movie-pie/config"
+	"github.com/s4kibs4mi/movie-pie/log"
 	"github.com/spf13/cobra"
 	"net/http"
 	"os"

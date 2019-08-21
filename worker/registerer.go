@@ -1,8 +1,8 @@
 package worker
 
 import (
-	"github.com/codersgarage/golang-restful-boilerplate/queue"
-	"github.com/codersgarage/golang-restful-boilerplate/tasks"
+	"github.com/s4kibs4mi/movie-pie/queue"
+	"github.com/s4kibs4mi/movie-pie/tasks"
 )
 
 func RegisterTasks() error {

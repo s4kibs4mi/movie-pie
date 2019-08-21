@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export CONSUL_URL="localhost:8500"
-export CONSUL_PATH="golang-restful-boilerplate"
+export CONSUL_PATH="movie-pie"
 
 export GOARCH="amd64"
 export GOOS="darwin"
@@ -10,8 +10,8 @@ export CGO_ENABLED=0
 
 cmd=$1
 
-package="github.com/codersgarage/golang-restful-boilerplate"
-binary="golang-restful-boilerplate"
+package="github.com/s4kibs4mi/movie-pie"
+binary="movie-pie"
 
 if [ "$cmd" = "run" ]; then
     echo "Executing run command"
@@ -21,14 +21,14 @@ fi
 
 if [ "$cmd" = "build" ]; then
     echo "Executing build command"
-    glide install
+    go get .
     go build -v -o ${binary}
     exit;
 fi
 
 if [ "$cmd" = "spew" ]; then
     echo "Executing spew command"
-    glide install
+    go get .
     go build -v -o ${binary}
     ./${binary} serve
     exit;

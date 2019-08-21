@@ -2,10 +2,10 @@ package app
 
 import (
 	"fmt"
-	"github.com/codersgarage/golang-restful-boilerplate/config"
-	"github.com/codersgarage/golang-restful-boilerplate/log"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"github.com/s4kibs4mi/movie-pie/config"
+	"github.com/s4kibs4mi/movie-pie/log"
 )
 
 var instance *gorm.DB
