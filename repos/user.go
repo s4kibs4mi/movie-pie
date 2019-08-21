@@ -4,6 +4,7 @@ import (
 	"github.com/s4kibs4mi/movie-pie/app"
 	"github.com/s4kibs4mi/movie-pie/data"
 	"github.com/s4kibs4mi/movie-pie/models"
+	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
@@ -62,7 +63,8 @@ func (ur *UserRepo) Login(s *app.Scope) (*models.Session, error) {
 	}
 
 	ss := models.Session{}
-	ss.AccessToken = "1111111111"
+	ss.AccessToken = bson.NewObjectId().Hex()
+	ss.RefreshToken = bson.NewObjectId().Hex()
 	ss.CreateAt = time.Now()
 	ss.UpdatedAt = time.Now()
 

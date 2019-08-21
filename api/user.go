@@ -8,9 +8,11 @@ import (
 )
 
 func login(ctx *gin.Context) {
-	u, err := repos.NewUserRepo().Register(app.NewScope(app.DB(), ctx))
+	u, err := repos.NewUserRepo().Login(app.NewScope(app.DB(), ctx))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, "Invalid request")
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
 		return
 	}
 	ctx.JSON(http.StatusCreated, u)
@@ -19,7 +21,9 @@ func login(ctx *gin.Context) {
 func register(ctx *gin.Context) {
 	u, err := repos.NewUserRepo().Register(app.NewScope(app.DB(), ctx))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, "Invalid request")
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+		})
 		return
 	}
 	ctx.JSON(http.StatusCreated, u)

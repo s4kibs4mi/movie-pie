@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/s4kibs4mi/movie-pie/app"
 	"github.com/s4kibs4mi/movie-pie/config"
 	"github.com/s4kibs4mi/movie-pie/log"
 	"os"
@@ -31,10 +32,10 @@ func Execute() {
 	}
 	log.SetupLog()
 
-	//if err := app.ConnectDB(); err != nil {
-	//	log.Log().Printf("Failed to connect to database : %v\n", err)
-	//	os.Exit(-1)
-	//}
+	if err := app.ConnectDB(); err != nil {
+		log.Log().Printf("Failed to connect to database : %v\n", err)
+		os.Exit(-1)
+	}
 
 	if err := RootCmd.Execute(); err != nil {
 		log.Log().Println(err)

@@ -2,8 +2,8 @@ package app
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/s4kibs4mi/movie-pie/config"
 	"github.com/s4kibs4mi/movie-pie/log"
 )
@@ -15,6 +15,7 @@ func ConnectDB() error {
 		fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
 			config.DB().Username, config.DB().Password,
 			config.DB().Host, config.DB().Port, config.DB().Name))
+
 	if err != nil {
 		return err
 	}
