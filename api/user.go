@@ -22,7 +22,9 @@ func login(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, u)
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": u,
+	})
 }
 
 func register(ctx *gin.Context) {

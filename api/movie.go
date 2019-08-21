@@ -13,6 +13,7 @@ func searchMovie(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, "Invalid request")
 		return
 	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"data": movies,
 	})

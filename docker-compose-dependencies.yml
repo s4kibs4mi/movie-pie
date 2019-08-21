@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  consul:
+    image: consul
+    ports:
+      - "8500:8500"
+
+  mysql:
+    image: mysql:5
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: boom
+      MYSQL_DATABASE: test

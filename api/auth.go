@@ -13,7 +13,7 @@ func auth() gin.HandlerFunc {
 		authPayload := ctx.GetHeader("Authorization")
 		values := strings.Split(authPayload, "Bearer ")
 
-		if len(values) < 1 {
+		if len(values) <= 1 {
 			ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
 				"error": "Unauthorized user",
 			})

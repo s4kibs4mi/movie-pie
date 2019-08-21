@@ -1,8 +1,10 @@
 package api
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 var router = gin.Default()
@@ -10,6 +12,15 @@ var router = gin.Default()
 // Router returns the api router
 func Router() http.Handler {
 	router.Use(gin.Recovery())
+
+	router.Use(cors.New(cors.Config{
+		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
+		ExposeHeaders:    []string{"*"},
+		AllowCredentials: true,
+		AllowAllOrigins:  true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	router.Use(func(ctx *gin.Context) {
 		defer func() {
@@ -41,6 +52,7 @@ func Router() http.Handler {
 
 func registerRoutes() {
 	v1 := router.Group("/v1")
+
 	v1.POST("/login", login)
 	v1.POST("/register", register)
 
