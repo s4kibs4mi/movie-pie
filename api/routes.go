@@ -9,6 +9,8 @@ var router = gin.Default()
 
 // Router returns the api router
 func Router() http.Handler {
+	router.Use(gin.Recovery())
+
 	router.Use(func(ctx *gin.Context) {
 		defer func() {
 			if rvr := recover(); rvr != nil {
@@ -41,9 +43,13 @@ func registerRoutes() {
 	v1 := router.Group("/v1")
 	v1.POST("/login", login)
 	v1.POST("/register", register)
-	v1.GET("/profile", profile)
+
+	v1.Use(auth()).GET("/profile", profile)
 
 	movies := v1.Group("movies")
-	movies.GET("/search", searchMovie)
-	movies.GET("/favourite", favouriteMovie)
+	movies.Use(auth())
+	{
+		movies.GET("/search", searchMovie)
+		movies.GET("/favourite", favouriteMovie)
+	}
 }

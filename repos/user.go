@@ -3,6 +3,7 @@ package repos
 import (
 	"github.com/s4kibs4mi/movie-pie/app"
 	"github.com/s4kibs4mi/movie-pie/data"
+	"github.com/s4kibs4mi/movie-pie/log"
 	"github.com/s4kibs4mi/movie-pie/models"
 	"gopkg.in/mgo.v2/bson"
 	"time"
@@ -54,11 +55,13 @@ type reqUserLogin struct {
 func (ur *UserRepo) Login(s *app.Scope) (*models.Session, error) {
 	body := reqUserLogin{}
 	if err := s.Ctx.BindJSON(&body); err != nil {
+		log.Log().Errorln(err)
 		return nil, err
 	}
 
 	err := data.NewUserDao().CheckLogin(s, body.Email, body.Password)
 	if err != nil {
+		log.Log().Errorln(err)
 		return nil, err
 	}
 
@@ -69,6 +72,7 @@ func (ur *UserRepo) Login(s *app.Scope) (*models.Session, error) {
 	ss.UpdatedAt = time.Now()
 
 	if err := data.NewUserDao().CreateSession(s, &ss); err != nil {
+		log.Log().Errorln(err)
 		return nil, err
 	}
 

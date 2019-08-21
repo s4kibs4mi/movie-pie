@@ -18,16 +18,25 @@ func NewUserDao() *UserDao {
 }
 
 func (ud *UserDao) Register(s *app.Scope, u *models.User) error {
-	return s.DB1.Create(u).Error
+	return s.DB.Create(u).Error
 }
 
 func (ud *UserDao) CreateSession(s *app.Scope, ss *models.Session) error {
-	return s.DB1.Create(ss).Error
+	return s.DB.Create(ss).Error
 }
 
 func (ud *UserDao) CheckLogin(s *app.Scope, email, password string) error {
+	u := models.User{}
+	err := s.DB.Table(u.TableName()).Where("email = ? AND password = ?", email, password).Find(&u).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ud *UserDao) ValidateToken(s *app.Scope, token string) error {
 	ss := models.Session{}
-	if err := s.DB1.Table(ss.TableName()).Where("email = ? AND password = ?", email, password).Find(&ss).Error; err != nil {
+	if err := s.DB.Table(ss.TableName()).Where("access_token = ?", token).First(&ss).Error; err != nil {
 		return err
 	}
 	return nil

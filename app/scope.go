@@ -7,12 +7,12 @@ import (
 
 type Scope struct {
 	Ctx *gin.Context
-	DB1 *gorm.DB
+	DB  *gorm.DB
 }
 
 func NewScope(db *gorm.DB, ctx *gin.Context) *Scope {
 	return &Scope{
-		DB1: db,
+		DB:  db,
 		Ctx: ctx,
 	}
 }
